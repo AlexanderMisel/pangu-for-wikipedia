@@ -108,7 +108,7 @@ const pangu = new Pangu();
       var childNode = childNodes[i];
       if (childNode.nodeType === Node.TEXT_NODE) {
         childNode.data = pangu.spacing(childNode.data);
-      } else {
+      } else if (childNode.nodeName !== 'CODE') {
         traverse(childNode);
       }
     }
