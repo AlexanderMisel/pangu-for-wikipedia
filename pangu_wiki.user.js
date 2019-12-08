@@ -3,6 +3,8 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
+// @homepage     https://github.com/AlexanderMisel/pangu-for-wikipedia
+// @supportURL   https://github.com/AlexanderMisel/pangu-for-wikipedia/issues
 // @author       Alexander Misel, Vinta Chen
 // @match        https://zh.wikipedia.org/wiki/*
 // @grant        none
