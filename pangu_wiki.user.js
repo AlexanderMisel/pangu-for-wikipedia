@@ -124,7 +124,7 @@ const pangu = new Pangu();
             var testText = childNode.data.substr(-1) + nextSibling.data.charAt(0);
             var testNewText = pangu.spacing(testText);
             if (testText !== testNewText) {
-              childNode.data += '\u2005';
+              nextSibling.data = '\u2005' + nextSibling.data;
             }
           }
         }
