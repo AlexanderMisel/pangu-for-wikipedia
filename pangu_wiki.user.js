@@ -80,16 +80,16 @@ class Pangu {
 
     let newText = text;
 
-    newText = newText.replace(CJK_OPERATOR_ANS, '$1 $2 $3');
-    newText = newText.replace(ANS_OPERATOR_CJK, '$1 $2 $3');
+    newText = newText.replace(CJK_OPERATOR_ANS, '$1\u2005$2\u2005$3');
+    newText = newText.replace(ANS_OPERATOR_CJK, '$1\u2005$2\u2005$3');
 
     newText = newText.replace(FIX_SLASH_AS, '$1$2');
     newText = newText.replace(FIX_SLASH_AS_SLASH, '$1$2$3');
 
-    newText = newText.replace(CJK_ANS, '$1 $2');
-    newText = newText.replace(ANS_CJK, '$1 $2');
+    newText = newText.replace(CJK_ANS, '$1\u2005$2');
+    newText = newText.replace(ANS_CJK, '$1\u2005$2');
 
-    newText = newText.replace(S_A, '$1 $2');
+    newText = newText.replace(S_A, '$1\u2005$2');
     // DEBUG
     // String.prototype.replace = String.prototype.rawReplace;
 
@@ -108,6 +108,26 @@ const pangu = new Pangu();
       var childNode = childNodes[i];
       if (childNode.nodeType === Node.TEXT_NODE) {
         childNode.data = pangu.spacing(childNode.data);
+        if (i === 0) {
+          var previousSibling = node.previousSibling;
+          if (previousSibling && previousSibling.nodeType === Node.TEXT_NODE) {
+            var testText = previousSibling.data.substr(-1) + childNode.data.charAt(0);
+            var testNewText = pangu.spacing(testText);
+            if (testText !== testNewText) {
+              previousSibling.data += '\u2005';
+            }
+          }
+        }
+        if (i + 1 === childNodes.length) {
+          var nextSibling = node.nextSibling;
+          if (nextSibling && nextSibling.nodeType === Node.TEXT_NODE) {
+            var testText = childNode.data.substr(-1) + nextSibling.data.charAt(0);
+            var testNewText = pangu.spacing(testText);
+            if (testText !== testNewText) {
+              childNode.data += '\u2005';
+            }
+          }
+        }
       } else if (childNode.nodeName !== 'CODE') {
         traverse(childNode);
       }
